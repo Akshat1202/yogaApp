@@ -1,20 +1,12 @@
 import os
 from flask import Flask, request, jsonify
-from werkzeug.utils import secure_filename
-from PIL import Image
 
 import cv2
 import numpy as np
 import mediapipe as mp
-mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-from mediapipe.framework.formats import landmark_pb2
 
-from matplotlib import pyplot as plt
-from matplotlib import image as mpimg
-
-
-UPLOAD_FOLDER = '/Users/vansh/Desktop/test/upload_images'
+UPLOAD_FOLDER = 'upload_images'
 
 def get_landmark_coordinates(image_path):
     # Initialize a list to store x and y coordinates
@@ -288,8 +280,10 @@ def get_array():
         if 'file' in request.files:
             image = request.files['file']
             if image is not None:    
-                flanme = secure_filename(image.filename)
-                image_path = os.path.join(app.config['UPLOAD_FOLDER'],flanme)
+                flanme = image.filename
+                print(image.filename)
+                image_path = os.path.join(app.config['UPLOAD_FOLDER'], flanme)
+                print(image_path)
                 image.save(image_path)
                 #fname = image.filename    
                 #data_to_send = get_landmark_coordinates('/Users/vansh/Desktop/test/upload_images/{}'.format(fname))
