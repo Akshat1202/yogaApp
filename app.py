@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 
 from landmark_coordinates import get_landmark_coordinates
 from suryanamaskar import evaluate_surya_namaskar_pose
+from vakrasan import evaluate_vakrasana_pose
 
 UPLOAD_FOLDER = 'upload_images'
 
