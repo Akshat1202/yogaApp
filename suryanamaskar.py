@@ -42,14 +42,6 @@ def evaluate_surya_namaskar_pose(landmarks):
                                      landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
                                      landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
 
-    left_hip_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.NOSE.value],
-                                    landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
-                                    landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value])
-
-    right_hip_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.NOSE.value],
-                                     landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
-                                     landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
-
     left_hip_s_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value],
                                     landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
                                     landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
@@ -65,12 +57,25 @@ def evaluate_surya_namaskar_pose(landmarks):
     standing_right_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value],
                                      landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
                                      landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
-    print(left_knee_angle)
-    print(left_hip_s_angle)
-    print(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1])
-    print(landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][1])
-    print(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1])
-    print(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1])
+    
+    face_left_knee_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.NOSE.value],
+                                    landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
+                                    landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value])
+
+    face_right_knee_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.NOSE.value],
+                                     landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
+                                     landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
+    
+    # print(left_elbow_angle)
+    # print(left_shoulder_angle)
+    # print(right_elbow_angle)
+    # print(right_shoulder_angle)
+    # print(face_left_knee_angle)
+    # print(face_right_knee_angle)
+    # print(landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value][1])
+    # print(landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][1])
+    # print(landmarks[mp_pose.PoseLandmark.NOSE.value][1])
+    # print(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])
     
     
     # Add your logic to determine the stage of the Surya Namaskar pose
@@ -95,10 +100,12 @@ def evaluate_surya_namaskar_pose(landmarks):
         pose_stage = Stage.three
     
     #for pose 4         
-    elif((pose_stage == None) and (left_elbow_angle>160 and right_elbow_angle>160) and (left_shoulder_angle>25 and right_shoulder_angle>25) and (left_shoulder_angle<40 and right_shoulder_angle<40)) and (abs(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]-landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][0])>0.40):
+    elif((pose_stage == None) and (left_elbow_angle>160 and right_elbow_angle>160) and (left_shoulder_angle>25 and right_shoulder_angle>25) 
+        and (left_shoulder_angle<50 and right_shoulder_angle<50)
+        and (abs(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]-landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][0])>0.40)):
         pose_stage = Stage.four
 
-    #for pose 5
+    #for pose 5 
     elif((pose_stage == None) and (left_knee_angle>160 and right_knee_angle>160) and (left_hip_s_angle<95 and right_hip_s_angle<95) and (left_hip_s_angle>=65 and right_hip_s_angle>=65)):
        if((landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) and (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])):
             pose_stage = Stage.five
@@ -188,7 +195,6 @@ def evaluate_surya_namaskar_pose(landmarks):
             print("Please take a look at photo and get in right position")
             suggestions.append("Please take a look at photo and get in right position")
 
-
     elif pose_stage == Stage.three:
         t =0
         if((left_knee_angle>157 and right_knee_angle>157)):
@@ -228,36 +234,44 @@ def evaluate_surya_namaskar_pose(landmarks):
     
     elif pose_stage == Stage.four:
         t =0
-        if((left_knee_angle>157 and right_knee_angle>157)):
+        if(left_elbow_angle>=170 and right_elbow_angle>=170):
             t =t+1
         else:
-            print("Please keep your leg straight and make your ankle touch ground")
-            suggestions.append("Please keep your leg straight and make your ankle touch ground")
-        if ((left_hip_s_angle<60 and right_hip_s_angle<60)) :
+            print("Please keep your arms straight and perpendicular to ground")
+            suggestions.append("Please keep your arms straight and perpendicular to ground")
+            
+        if ((left_shoulder_angle>25 and left_shoulder_angle<40) and (right_shoulder_angle>25 and right_shoulder_angle<40)) :
             t =t+1
         else:
-            print("Bend yourself properly ")
-            suggestions.append("Bend yourself properly ")
-        if ((landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) and (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])):
+            print("Move your hip towards your hand and your head upward")
+            suggestions.append("Move your hip towards your hand and your head upward")
+            
+        if (abs(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value][1]-landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][1]) <0.05 
+            or abs(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value][1]-landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1]) <0.05):
             t = t+1
         else:
-            print("Your shoulder should be below your hips")
-            suggestions.append("Your shoulder should be below your hips")
-        if (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value][1] and landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value][1]):
+            print("Your one lag should parallal to ground and other perpendicular")
+            suggestions.append("Your one lag should parallal to ground and other perpendicular")
+            
+        if ((face_left_knee_angle>160 and face_left_knee_angle<180) or (face_right_knee_angle>160 and face_right_knee_angle<180)):
             t =t+1
         else:
-            print("please keep your waist down and in line with legs")
-            suggestions.append("please keep your waist down and in line with legs")
-        if ((landmarks[mp_pose.PoseLandmark.NOSE.value][1]>landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) and (landmarks[mp_pose.PoseLandmark.NOSE.value][1]>landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])):
+            print("please keep your face inline with knee and ankle")
+            suggestions.append("please keep your face inline with knee and ankle")
+            
+        if ((landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value][1]>0.8 and landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][1] >0.8) 
+            and (landmarks[mp_pose.PoseLandmark.NOSE.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])):
             t =t+1
         else:
-            print("look down or keep your head down")
-            suggestions.append("look down or keep your head down")
-        if (landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value][1] and landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][1]):
+            print("keep your hands on the ground")
+            suggestions.append("keep your hands on the ground")
+            
+        if (landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value][1]
+            and landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][1]):
             t =t+1
         else:
-            print("Your right knee should touch the ground ")
-            suggestions.append("Your right knee should touch the ground ")
+            print("Your elbow and wrist should be inline")
+            suggestions.append("Your elbow and wrist should be inline")
 
         if t==6:
             print("you are doing great")
