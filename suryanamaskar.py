@@ -66,14 +66,13 @@ def evaluate_surya_namaskar_pose(landmarks):
                                      landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
                                      landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
     
-    # print(left_elbow_angle)
-    # print(left_shoulder_angle)
-    # print(right_elbow_angle)
-    # print(right_shoulder_angle)
-    # print(face_left_knee_angle)
+    print(left_knee_angle)
+    print(right_hip_s_angle)
+    print(right_shoulder_angle)
+    print(left_shoulder_angle)
     # print(face_right_knee_angle)
-    # print(landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value][1])
-    # print(landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][1])
+    print(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1])
+    print(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1])
     # print(landmarks[mp_pose.PoseLandmark.NOSE.value][1])
     # print(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])
     
@@ -88,26 +87,29 @@ def evaluate_surya_namaskar_pose(landmarks):
         pose_stage = Stage.one
     
     #for pose 2
-    elif ((pose_stage == None) and (left_elbow_angle >= 135 and right_elbow_angle >= 135) and
-        (left_elbow_angle <= 180 and right_elbow_angle <= 180) and (left_knee_angle >= 150 and right_knee_angle >= 150) and 
-        ((landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][0] < landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]))):
+    elif ((pose_stage == None) and (left_elbow_angle >= 135 or right_elbow_angle >= 135) and
+        (left_elbow_angle <= 180 or right_elbow_angle <= 180) and (left_knee_angle >= 150 or right_knee_angle >= 150) and 
+        (abs(landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][0] - landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]) > 0.2) and 
+        abs(landmarks[mp_pose.PoseLandmark.NOSE.value][1] - landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1]) >= 0.3):
         pose_stage = Stage.two
     
     #for pose 3 
     elif ((pose_stage == None) and (left_knee_angle > 130 and right_knee_angle > 130) and
         (left_hip_s_angle < 100 and right_hip_s_angle < 100)) and ((landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1] < landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][1]) and
-            (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1] < landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1])):
+            (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1] < landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1]) and
+            (abs(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]-landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][0])<0.3)):
         pose_stage = Stage.three
     
     #for pose 4         
-    elif((pose_stage == None) and (left_elbow_angle>160 and right_elbow_angle>160) and (left_shoulder_angle>25 and right_shoulder_angle>25) 
-        and (left_shoulder_angle<50 and right_shoulder_angle<50)
+    elif((pose_stage == None) and (left_elbow_angle>160 or right_elbow_angle>160) and (left_shoulder_angle>25 or right_shoulder_angle>25) 
+        and (left_shoulder_angle<90 or right_shoulder_angle<90)
         and (abs(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]-landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][0])>0.40)):
         pose_stage = Stage.four
 
     #for pose 5 
-    elif((pose_stage == None) and (left_knee_angle>160 and right_knee_angle>160) and (left_hip_s_angle<95 and right_hip_s_angle<95) and (left_hip_s_angle>=65 and right_hip_s_angle>=65)):
-       if((landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) and (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])):
+    elif((pose_stage == None) and (left_knee_angle>160 and right_knee_angle>160) and (left_hip_s_angle<95 and right_hip_s_angle<95) and (left_hip_s_angle>=65 and right_hip_s_angle>=65)
+       and (landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) or
+       (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])):
             pose_stage = Stage.five
             
     #for pose 6
@@ -155,9 +157,6 @@ def evaluate_surya_namaskar_pose(landmarks):
         if t==5:
             print("you are doing great")
             suggestions.append("you are doing great")
-        else:
-            print("Please take a look at photo and get in right position")
-            suggestions.append("Please take a look at photo and get in right position")
   
     elif pose_stage == Stage.two:
         t = 0
@@ -182,7 +181,7 @@ def evaluate_surya_namaskar_pose(landmarks):
             print("please push back your hands harder")
             suggestions.append("please push back your hands harder")
 
-        if (landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][0]>=landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][0] or landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][0]>=landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]):
+        if (abs(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][0]-landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value][0])>0.05):
             t = t+1
         else:
             print("please bend a bit more backwards ")
@@ -191,9 +190,6 @@ def evaluate_surya_namaskar_pose(landmarks):
         if t==5:
             # print("You are in right position ")
             suggestions.append("You are in right position ")
-        else:
-            print("Please take a look at photo and get in right position")
-            suggestions.append("Please take a look at photo and get in right position")
 
     elif pose_stage == Stage.three:
         t =0
