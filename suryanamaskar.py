@@ -156,7 +156,7 @@ def evaluate_surya_namaskar_pose(landmarks):
             suggestions.append("pls put your hand together to make a NAMASKAR pose from hands")
         if t==5:
             print("you are doing great")
-            suggestions.append("you are doing great")
+            suggestions.append("you are doing great for Pranamasana (Prayer Pose)")
   
     elif pose_stage == Stage.two:
         t = 0
@@ -189,7 +189,7 @@ def evaluate_surya_namaskar_pose(landmarks):
 
         if t==5:
             # print("You are in right position ")
-            suggestions.append("You are in right position ")
+            suggestions.append("You are in right position for Hasta Uttanasana (Raised Arm Pose)")
 
     elif pose_stage == Stage.three:
         t =0
@@ -226,7 +226,7 @@ def evaluate_surya_namaskar_pose(landmarks):
 
         if t==6:
             print("you are doing great")
-            suggestions.append("you are doing great")
+            suggestions.append("you are doing great for Hasta Padasana (Hand to Foot Pose)")
     
     elif pose_stage == Stage.four:
         t =0
@@ -271,7 +271,8 @@ def evaluate_surya_namaskar_pose(landmarks):
 
         if t==6:
             print("you are doing great")
-            suggestions.append("you are doing great")
+            suggestions.append("you are doing great for Ashwa Sanchalanasana (Lunge Pose) ")
+    
     elif pose_stage == Stage.five:
         t =0
         if((left_knee_angle>170 and right_knee_angle>170)):
@@ -302,9 +303,9 @@ def evaluate_surya_namaskar_pose(landmarks):
 
         if t==5:
             print("you are doing great")
-            suggestions.append("you are doing great")
+            suggestions.append("you are doing great for Parvatasana (Mountain Pose)")
     else:
-        suggestions.append("Try to attempt the asana correctly it is not matching with any stage")
+        suggestions.append("Try to attempt the asana correctly it is not matching with any stage or suryanamaskar")
         
 
     return suggestions
