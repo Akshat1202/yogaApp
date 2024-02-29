@@ -272,7 +272,37 @@ def evaluate_surya_namaskar_pose(landmarks):
         if t==6:
             print("you are doing great")
             suggestions.append("you are doing great")
-    
+    elif pose_stage == Stage.five:
+        t =0
+        if((left_knee_angle>170 and right_knee_angle>170)):
+            t =t+1
+        else:
+            print("Please keep your leg straight and make your ankle touch ground")
+            suggestions.append("Please keep your leg straight and make your ankle touch ground")
+        if ((left_hip_s_angle<120 and right_hip_s_angle<120) and (left_hip_s_angle>=65 and right_hip_s_angle>=65)) :
+            t =t+1
+        else:
+            print("Bend yourself properly ")
+            suggestions.append("Bend yourself properly ")
+        if ((abs(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1])<abs(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1])) and (abs(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1])<abs(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1]))):
+            t = t+1
+        else:
+            print("Your shoulder should be below your hips")
+            suggestions.append("Your shoulder should be below your hips")
+        if (abs(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1])<abs(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value][1]) and abs(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1])<abs(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value][1])):
+            t =t+1
+        else:
+            print("please keep your waist up and in line with legs")
+            suggestions.append("please keep your waist up and in line with legs")
+        if ((abs(landmarks[mp_pose.PoseLandmark.NOSE.value][1])>abs(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1])) and (abs(landmarks[mp_pose.PoseLandmark.NOSE.value][1])>abs(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1]))):
+            t =t+1
+        else:
+            print("look down or keep your head down")
+            suggestions.append("look down or keep your head down")
+
+        if t==5:
+            print("you are doing great")
+            suggestions.append("you are doing great")
     else:
         suggestions.append("Try to attempt the asana correctly it is not matching with any stage")
         
