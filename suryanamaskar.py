@@ -71,8 +71,8 @@ def evaluate_surya_namaskar_pose(landmarks):
     # print(right_shoulder_angle)
     # print(left_shoulder_angle)
     # print(face_right_knee_angle)
-    print(landmarks[mp_pose.PoseLandmark.NOSE.value][0])
-    print(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][0])
+    # print(landmarks[mp_pose.PoseLandmark.NOSE.value][0])
+    # print(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][0])
     # print(landmarks[mp_pose.PoseLandmark.NOSE.value][1])
     # print(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])
     
