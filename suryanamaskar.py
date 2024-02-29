@@ -71,8 +71,8 @@ def evaluate_surya_namaskar_pose(landmarks):
     # print(right_shoulder_angle)
     # print(left_shoulder_angle)
     # print(face_right_knee_angle)
-    # print(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1])
-    # print(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1])
+    print(landmarks[mp_pose.PoseLandmark.NOSE.value][0])
+    print(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][0])
     # print(landmarks[mp_pose.PoseLandmark.NOSE.value][1])
     # print(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])
     
@@ -90,7 +90,8 @@ def evaluate_surya_namaskar_pose(landmarks):
     elif ((pose_stage == None) and (left_elbow_angle >= 135 or right_elbow_angle >= 135) and
         (left_elbow_angle <= 180 or right_elbow_angle <= 180) and (left_knee_angle >= 150 or right_knee_angle >= 150) and 
         (abs(landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][0] - landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0]) > 0.2) and 
-        abs(landmarks[mp_pose.PoseLandmark.NOSE.value][1] - landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1]) >= 0.3):
+        (abs(landmarks[mp_pose.PoseLandmark.NOSE.value][1] - landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1]) >= 0.3) and 
+        (abs(landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][1] - landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1]) >= 0.6)):
         pose_stage = Stage.two
     
     #for pose 3 , Hasta Padasana (Hand to Foot Pose)
@@ -109,7 +110,8 @@ def evaluate_surya_namaskar_pose(landmarks):
     #for pose 5 , Parvatasana (Mountain Pose)
     elif((pose_stage == None) and (left_knee_angle>160 and right_knee_angle>160) and (left_hip_s_angle<95 and right_hip_s_angle<95) and (left_hip_s_angle>=65 and right_hip_s_angle>=65)
        and (landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) or
-       (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1])):
+       (landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][1]<landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1]) and 
+       (abs(landmarks[mp_pose.PoseLandmark.NOSE.value][0]-landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value][0]) < 0.2)):
             pose_stage = Stage.five
             
     #for pose 6 , Ashtanga Namaskara (Eight Limbed Pose)
