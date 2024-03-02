@@ -306,8 +306,47 @@ def evaluate_surya_namaskar_pose(landmarks):
         if t==5:
             print("you are doing great")
             suggestions.append("you are doing great for Parvatasana (Mountain Pose)")
+   
+
+    elif pose_stage == Stage.six:
+        t = 0
+        if (left_knee_angle > 150 and right_knee_angle > 150):
+            t += 1
+        else:
+            print("Please lower your knees closer to the floor")
+            suggestions.append("Please lower your knees closer to the floor")
+        if (left_hip_s_angle > 120 and right_hip_s_angle > 120):
+            t += 1
+        else:
+            print("Please keep your hips lifted")
+            suggestions.append("Please keep your hips lifted")
+        if (left_elbow_angle > 80 and left_elbow_angle < 100) and (right_elbow_angle > 80 and right_elbow_angle < 100):
+            t += 1
+        else:
+            print("Please keep your arms straight")
+            suggestions.append("Please keep your arms straight")
+        if (abs(left_shoulder_angle) < 30 and abs(right_shoulder_angle) < 30):
+            t += 1
+        else:
+            print("Please relax your shoulders")
+            suggestions.append("Please relax your shoulders")
+        if abs(landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value][1]) > abs(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]):
+            t += 1
+        else:
+            print("Ensure your arms are not bending")
+            suggestions.append("Ensure your arms are not bending")
+        if abs(landmarks[mp_pose.PoseLandmark.NOSE.value][1]) < abs(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]):
+            t += 1
+        else:
+            print("Gaze forward, not downwards")
+            suggestions.append("Gaze forward, not downwards")
+
+        if t == 6:
+            print("You are doing great!")
+            suggestions.append("You are doing great for Ashtanga Namaskara (Salute with Eight Limbs Pose)")
     else:
-        suggestions.append("Try to attempt the asana correctly it is not matching with any stage or suryanamaskar")
+        suggestions.append("Try to attempt the asana correctly. It is not matching with any stage or suryanamaskar")
+
         
 
     return suggestions
