@@ -50,8 +50,10 @@ def evaluate_vakrasana_pose(landmarks):
                                           landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
     
     pose_stage = None
-
-    if(left_shoulder_angle>=30):
+    
+    print(left_shoulder_angle) 
+    
+    if(left_shoulder_angle>=25):
       pose_stage=Stage.three
     else:
       if(left_knee_angle<=60):
