@@ -121,7 +121,8 @@ def evaluate_surya_namaskar_pose(landmarks):
         
     #for pose 7 , Bhujangasana (Cobra Pose)
     elif((pose_stage == None) and (left_knee_angle>150 and right_knee_angle>150) and (left_hip_s_angle>120 and right_hip_s_angle>120)):
-      if((landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value][1]>landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) and (landmarks[mp_pose.PoseLandmark.NOSE.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1])):
+      if((landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value][1]>landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]) 
+        and (landmarks[mp_pose.PoseLandmark.NOSE.value][1]<landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1])):
         pose_stage = Stage.seven
         
     else:
@@ -344,9 +345,45 @@ def evaluate_surya_namaskar_pose(landmarks):
         if t == 6:
             print("You are doing great!")
             suggestions.append("You are doing great for Ashtanga Namaskara (Salute with Eight Limbs Pose)")
-    else:
-        suggestions.append("Try to attempt the asana correctly. It is not matching with any stage or suryanamaskar")
+    
+    elif pose_stage == Stage.seven:
+        t =0
+        if((left_knee_angle>150 and right_knee_angle>150)):
+            t =t+1
+        else:
+            print("Please lift your upper body")
+            suggestions.append("Please lift your upper body")
+        if ((left_hip_s_angle>120 and right_hip_s_angle>120)):
+            t =t+1
+        else:
+            print("Please keep your shoulders straight,don't scrunch the up")
+        if ((left_elbow_angle>80 and left_elbow_angle<100) and (right_elbow_angle>80 and right_elbow_angle<100)):
+            t =t+1
+        else:
+            print("Please keep your arms straight")
+            suggestions.append("Please keep your arms straight")
+        if (left_shoulder_angle<30 and right_shoulder_angle<30):
+            t =t+1
+        else:
+            print("Please lower down your hips")
+            suggestions.append("Please lower down your hips")
+        if ((abs(landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value][1])>abs(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]))):
+            t = t+1
+        else:
+            print("Straighten your arms,don't bend them")
+            suggestions.append("Straighten your arms,don't bend them")
+        if ((abs(landmarks[mp_pose.PoseLandmark.NOSE.value][1])<abs(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]))):
+            t =t+1
+        else:
+            print("Don't bend your neck backwards.Look straight towards the roof")
+            suggestions.append("Don't bend your neck backwards.Look straight towards the roof")
 
+        if t==6:
+            print("you are doing great")
+            suggestions.append("you are doing great for Bhujangasana (Cobra Pose)")
+    
+    else:
+        suggestions.append("Try to attempt the asana correctly it is not matching with any stage or suryanamaskar")
         
 
     return suggestions
