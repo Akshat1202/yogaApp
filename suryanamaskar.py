@@ -148,8 +148,8 @@ def evaluate_surya_namaskar_pose(landmarks):
         if (left_knee_angle >=170 and left_knee_angle <= 185 and right_knee_angle >= 170 and right_knee_angle <= 185):
             t = t+1
         else:
-                print("pls dont bend your knees")
-                suggestions.append("pls dont your knees")
+                print("pls don't bend your knees")
+                suggestions.append("pls don't bend your knees")
         if(landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value][1]> landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1] and landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value][1]> landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1]):
             t = t+1
         else:
