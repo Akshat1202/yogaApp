@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Body Analysis Service</title>
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"
+    >
+    <style>
+        body {
+            background-color: #f8f9fa; /* Optional: Set a background color */
+        }
+
+        .container {
+            margin-top: 50px; /* Adjust the margin-top value as needed */
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .navbar {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: center;
+        }
+
+        .card-img-top {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Check Pose Accuracy</a>
+    </nav>
+
+    <!-- Form Card -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 card">
+                <img src="Images\yoga_image.jpg" class="card-img-top" alt="Yoga Pose">
+                <h5 class="card-title text-center mb-4">Upload the Yoga Pose for Suggestions</h5>
+                <form action="/get_array" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control-file">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGaYNapGgiwVChibIIt9wWJs8" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
+</html>

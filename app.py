@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 
 from landmark_coordinates import get_landmark_coordinates
 from suryanamaskar import evaluate_surya_namaskar_pose
@@ -8,8 +8,12 @@ from vakrasan import evaluate_vakrasana_pose
 UPLOAD_FOLDER = 'upload_images'
 
     
-app = Flask(__name__, template_folder="template")
+app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 @app.route('/get_array', methods=['POST'])
 def get_array():
@@ -20,25 +24,35 @@ def get_array():
                 flanme = image.filename
                 image_path = os.path.join(app.config['UPLOAD_FOLDER'], flanme)
                 image.save(image_path)
-                data_to_send = get_landmark_coordinates(image_path)
-                if data_to_send is not None:
-                    
-                    # find suggestions for yoga asana
-                    suggestions = evaluate_surya_namaskar_pose(data_to_send)
-                    
-                    return jsonify(suggestions)
-                else:
-                    print("Error: Failed to process the image")
-                    return "Error: Failed to process the image", 500
+                try:
+                    data_to_send = get_landmark_coordinates(image_path)
+                    suggestions = evaluate_surya_namaskar_pose(data_to_send)   
+                    return render_template('result.html', suggestions=suggestions)
+                
+                except Exception as e:
+                        print(f"Error processing image: {e}")
+                        return jsonify({
+                            'success': False,
+                            'message': 'Failed to process the image'
+                        }), 500
             else:
                 print("Error: No valid image provided in the request")
-                return "Error: No valid image provided in the request", 400
+                return jsonify({
+                    'success': False,
+                    'message': 'No valid image provided in the request'
+                }), 400
         else:
             print("Error: 'image' not found in the request")
-            return "Error: 'image' not found in the request", 400
+            return jsonify({
+                'success': False,
+                'message': 'image not found in the request'
+            }), 400
     else:
         print("Error: Invalid request method")
-        return "Error: Invalid request method", 405
+        return jsonify({
+            'success': False,
+            'message': 'Invalid request method'
+        }), 405
       
 
 @app.errorhandler(500)
